@@ -1,5 +1,5 @@
 import HTTP from './http';
-import Router from './router';
+import router from './router';
 
 export default {
 	namespaced: true,
@@ -8,8 +8,15 @@ export default {
 		registerPassword: null,
 		registerError: null,
 		token: null,
+		loginEmail: null,
+		loginPassword: null,
+		loginError: null,
 	},
 	actions: {
+		logout({commit}) {
+			commit('setToken', null);
+			router.push('/login');
+		},
 		register({commit, state}) {
 			return HTTP().post('auth/register', {
 				email: state.registerEmail,
@@ -17,16 +24,29 @@ export default {
 			})
 			.then(({ data }) => {
 				commit('setToken', data.token);
-				Router.push('/');
+				router.push('/');
 			})
 			.catch(() => {
-				commit('setRegisterError', 'An Error Occured!');
+				commit('setRegisterError', 'An Error Occured during Registration!');
+			});
+		},
+		login({commit, state}) {
+			return HTTP().post('auth/login', {
+				email: state.loginEmail,
+				password: state.loginPassword,
+			})
+			.then(({ data }) => {
+				commit('setToken', data.token);
+				router.push('/');
+			})
+			.catch(() => {
+				commit('setLoginError', 'An Error Occured during Login!');
 			});
 		}
 	},
 	getters: {
 		isLoggedIn (state) {
-			return !!state.token;
+			return state.token;
 		}
 	},
 	mutations: {
@@ -41,6 +61,15 @@ export default {
 		},
 		setRegisterPassword (state, password) {
 			state.registerPassword = password
-		}
+		},
+		setLoginError (state, error) {
+			state.loginError = error;
+		},
+		setLoginEmail (state, email) {
+			state.loginEmail = email;
+		},
+		setLoginPassword (state, password) {
+			state.loginPassword = password
+		},
 	}
 }
