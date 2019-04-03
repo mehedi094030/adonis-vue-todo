@@ -1,13 +1,35 @@
 <template>
 	<Panel title="Projects">
-		<v-layout row wrap>
+		<div 
+			v-for="project in projects"
+			:key="project.id"
+		>
+			<v-layout row wrap>
+				<v-flex xs10 class="project_text text-xs-left mt-2">
+					<span
+						v-if="!project.isEditMode"
+					>
+						{{project.title}}
+					</span>
+					<v-text-field
+						v-if="project.isEditMode"
+						:value="project.title"
+						@input="setProjectTitle({
+							project,
+							title: $event
+						})"
+					>						
+					</v-text-field>
+				</v-flex>
+				<v-flex xs2>
+					<v-icon v-if="!project.isEditMode" class="mr-2" @click="setEditMode(project)">edit</v-icon>
+					<v-icon v-if="project.isEditMode" class="mr-2" @click="unsetEditMode(project)">check</v-icon>
+					<v-icon>delete</v-icon>
+				</v-flex>
+			</v-layout>
+		</div>
+		<v-layout row wrap class="mt-3">
 			<v-flex xs8>
-				<div 
-					v-for="project in projects"
-					:key="project.id"
-				>
-					{{project.title}}
-				</div>
 				<v-text-field 
 				placeholder="My project name...."
 				:value="newProjectName"
@@ -29,6 +51,9 @@
 import { mapMutations, mapState, mapActions } from 'vuex';
 
 export default {
+	mounted() {
+		this.fetchProjects();
+	},
 	computed: {
 		...mapState('projects', [
 			'newProjectName',
@@ -38,9 +63,13 @@ export default {
 	methods: {
 		...mapMutations('projects', [
 			'setNewProjectName',
+			'setProjectTitle',
+			'setEditMode',
+			'unsetEditMode'
 		]),
 		...mapActions('projects', [
 			'createProject',
+			'fetchProjects'
 		])
 	}
 }
@@ -48,5 +77,8 @@ export default {
 
 
 <style>
-	
+	.project_text{
+		font-size: 18px;
+		cursor: pointer;
+	}
 </style>
