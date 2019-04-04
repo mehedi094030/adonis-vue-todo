@@ -35,7 +35,6 @@
 				<v-text-field 
 				placeholder="My project name...."
 				:value="newProjectName"
-				:rules="inputRules"
 				@keyup.enter="createProject"
 				@input="setNewProjectName"
 				></v-text-field>
@@ -55,13 +54,6 @@
 import { mapMutations, mapState, mapActions } from 'vuex';
 
 export default {
-	data() {
-		return {
-			inputRules: [
-				v => v.length >= 3 || 'Minimum length is 3 characters!'
-			]
-		}
-	},
 	mounted() {
 		this.fetchProjects();
 	},
