@@ -6,7 +6,7 @@
   		</v-flex>
 
   		<v-flex xs8 pl-4>
-  			<Tasks/>
+  			<!-- <Tasks/> -->
   		</v-flex>
   	</v-layout>
   </v-container>
@@ -21,7 +21,6 @@ import router from '../router';
 export default {
 	components: {
 		Projects,
-		Tasks,
 	},
 	mounted() {
     	if (!this.isLoggedIn) {

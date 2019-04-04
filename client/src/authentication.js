@@ -8,8 +8,8 @@ export default {
 		registerPassword: null,
 		registerError: null,
 		token: null,
-		loginEmail: null,
-		loginPassword: null,
+		loginEmail: 'mehedi@gmail.com',
+		loginPassword: '123456',
 		loginError: null,
 	},
 	actions: {
