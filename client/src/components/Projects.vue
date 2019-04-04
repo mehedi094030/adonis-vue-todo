@@ -13,7 +13,9 @@
 					</span>
 					<v-text-field
 						v-if="project.isEditMode"
+						autofocus
 						:value="project.title"
+						@keyup.enter="updateProject(project)"
 						@input="setProjectTitle({
 							project,
 							title: $event
@@ -23,8 +25,8 @@
 				</v-flex>
 				<v-flex xs2>
 					<v-icon v-if="!project.isEditMode" class="mr-2" @click="setEditMode(project)">edit</v-icon>
-					<v-icon v-if="project.isEditMode" class="mr-2" @click="unsetEditMode(project)">check</v-icon>
-					<v-icon>delete</v-icon>
+					<v-icon v-if="project.isEditMode" class="mr-2" @click="updateProject(project)">check</v-icon>
+					<v-icon @click="deleteProject(project)">delete</v-icon>
 				</v-flex>
 			</v-layout>
 		</div>
@@ -33,6 +35,8 @@
 				<v-text-field 
 				placeholder="My project name...."
 				:value="newProjectName"
+				:rules="inputRules"
+				@keyup.enter="createProject"
 				@input="setNewProjectName"
 				></v-text-field>
 			</v-flex>
@@ -51,6 +55,13 @@
 import { mapMutations, mapState, mapActions } from 'vuex';
 
 export default {
+	data() {
+		return {
+			inputRules: [
+				v => v.length >= 3 || 'Minimum length is 3 characters!'
+			]
+		}
+	},
 	mounted() {
 		this.fetchProjects();
 	},
@@ -69,7 +80,9 @@ export default {
 		]),
 		...mapActions('projects', [
 			'createProject',
-			'fetchProjects'
+			'fetchProjects',
+			'updateProject',
+			'deleteProject',
 		])
 	}
 }

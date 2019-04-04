@@ -9,7 +9,19 @@ export default {
 		newProjectName: null,
 	},
 	actions: {
-		fetchProjects({commit, state}) {
+		updateProject({commit}, project) {
+				return HTTP().patch(`/projects/${project.id}`, project)
+				.then(() => {
+					commit('unsetEditMode', project);
+				});
+			},	
+		deleteProject({commit}, project) {
+				return HTTP().delete(`/projects/${project.id}`)
+				.then(() => {
+					commit('removeProject', project);
+				});
+			},		
+		fetchProjects({commit}) {
 				return HTTP().get('/projects')
 				.then(({ data }) => {
 					commit('setProjects', data);
@@ -46,6 +58,9 @@ export default {
 		},
 		unsetEditMode(state, project) {
 			Vue.set(project, 'isEditMode', false);
+		},
+		removeProject(state, project) {
+			state.projects.splice(state.projects.indexOf(project), 1);
 		},
 	}
 }
