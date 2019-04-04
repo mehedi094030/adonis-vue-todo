@@ -47,18 +47,25 @@ export default {
 		]),
 	},
 	methods: {
+		projectClicked(project) {
+	      	this.setCurrentProject(project);
+	      	this.fetchTasksForProject(project);
+	    },
 		...mapMutations('projects', [
 			'setNewProjectName',
 			'setProjectTitle',
 			'setEditMode',
-			'unsetEditMode'
+			'setCurrentProject'
 		]),
 		...mapActions('projects', [
 			'createProject',
 			'fetchProjects',
 			'updateProject',
 			'deleteProject',
-		])
+		]),
+		...mapActions('tasks', [
+	      	'fetchTasksForProject',
+	    ]),
 	}
 }
 </script>

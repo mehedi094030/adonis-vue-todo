@@ -7,6 +7,7 @@ export default {
 	state: {
 		projects: [],
 		newProjectName: null,
+		currentProject: null
 	},
 	actions: {
 		updateProject({commit}, project) {
@@ -41,6 +42,9 @@ export default {
 		
 	},
 	mutations: {
+		setCurrentProject(state, project) {
+	      	state.currentProject = project;
+	    },
 		setNewProjectName(state, name) {
 			state.newProjectName = name;
 		},
