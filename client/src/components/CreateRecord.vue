@@ -36,6 +36,7 @@ export default {
 	props: [
 		'placeholder',
 		'value',
+		'isDisabled',
 	],
 }
 </script>
