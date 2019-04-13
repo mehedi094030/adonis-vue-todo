@@ -1,4 +1,5 @@
-#Clone the git repository
-#Connect the database in .env file like .env.example
-#install npm
-#run server & enjoy
+# Install Instruction </br>
+### Clone the git repository </br>
+### Connect the database in .env file like .env.example </br>
+### install npm in both folder </br>
+### run server & enjoy </br>
